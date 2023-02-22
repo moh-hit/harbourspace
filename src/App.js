@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import Header from './components/Common/Header'
+import HeroSection from './containers/Home/HeroSection'
 import { withTheme } from './Theme/ThemeProvider'
+import About from './containers/Home/About'
 
 class App extends Component {
   constructor(props) {
@@ -13,6 +15,8 @@ class App extends Component {
     return (
       <main className={`${styles.main}`} id="main" ref={this.scrollRef}>
         <Header />
+        <HeroSection />
+        <About />
       </main>
     )
   }
