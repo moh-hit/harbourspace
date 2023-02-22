@@ -1,0 +1,10 @@
+node_modules/
+build/
+config/
+public/
+scripts/
+android/
+ios/
+eslintrc.js
+readme.md
+Gruntfile.js

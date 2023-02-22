@@ -1,0 +1,66 @@
+module.exports = {
+  root: true,
+  parser: 'babel-eslint',
+  extends: 'airbnb',
+  plugins: ['react', 'jsx-a11y'],
+  env: {
+    browser: true,
+    node: true,
+    jest: true,
+    es6: true,
+    worker: true,
+    serviceworker: true,
+  },
+  parserOptions: {
+    ecmaVersion: 11,
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+      modules: true,
+    },
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js'],
+      },
+    },
+  },
+  rules: {
+    'prettier/prettier': 0,
+    'arrow-body-style': 'off',
+    camelcase: 'off',
+    'class-methods-use-this': 0,
+    'react/sort-comp': 'off',
+    // 'comma-dangle': [
+    //   'off',
+    //   'never'
+    // ],
+    'global-require': 'off',
+    'linebreak-style': 0,
+    'keyword-spacing': 'off',
+    'no-console': 0,
+    'no-nested-ternary': 'off',
+    'no-param-reassign': 'off',
+    'no-plusplus': 'off',
+    'no-bitwise': 'off',
+    'no-use-before-define': 0,
+    'prefer-destructuring': 'off',
+    'react/forbid-prop-types': 'off',
+    'react/jsx-filename-extension': 0,
+    'react/no-did-update-set-state': 'off',
+    'react/prop-types': 0,
+    'react/prefer-stateless-function': 'off',
+    'react/state-in-constructor': 0,
+    'react/jsx-props-no-spreading': 0,
+    'react/no-unused-state': 0,
+    'no-debugger': 0,
+    'arrow-parens': [1, 'as-needed', { requireForBlockBody: true }],
+    semi: [
+      'error',
+      'never',
+    ],
+    curly: ['error', 'multi-line'],
+    'react/destructuring-assignment': ['warn', 'always'],
+  },
+}

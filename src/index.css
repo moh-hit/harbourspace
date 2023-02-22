@@ -1,0 +1,993 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+@font-face {
+  font-family: harbourCustom;
+  src: url(fonts/light.otf);
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: harbourCustom;
+  src: url(fonts/regular.otf);
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: harbourCustom;
+  src: url(fonts/medium.otf);
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: harbourCustom;
+  src: url(fonts/bold.otf);
+  font-weight: 600;
+}
+
+body {
+  margin: 0;
+  font-family: harbourCustom, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  box-sizing: border-box;
+  cursor: default;
+  overflow: hidden;
+  --anim-func-bouncy: cubic-bezier(0.15, 0.47, 0, 1.16);
+  --anim-func-ease: cubic-bezier(0, 0.62, 0.24, 1.04);
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+
+[data-tour="tour"] {
+  overflow-y: hidden !important;
+}
+
+[data-tour="tour"] [data-value="sticky"] {
+  position: inherit !important;
+  z-index: unset;
+}
+
+[data-tour="tour"] [data-value="tour"] {
+  z-index: 9999;
+  border-radius: 5px;
+}
+
+[data-tour="tour"] [data-value="tour-highlighted"] {
+  z-index: 9999;
+  position: relative;
+  border-radius: 5px;
+  background-color: var(--screenBg);
+}
+
+div {
+  box-sizing: border-box;
+}
+
+ul,
+h1,
+p,
+h5 {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+input,
+textarea {
+  border-style: none;
+  border-width: 0;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  font-family: harbourCustom, sans-serif;
+  font-weight: 300;
+  color: var(--text);
+}
+input::placeholder,
+textarea::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--placeholderDarkColor);
+  font-family: harbourCustom, sans-serif;
+  font-weight: 300;
+  opacity: 1; /* Firefox */
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: var(--placeholderDarkColor);
+  font-family: harbourCustom, sans-serif;
+  font-weight: 300;
+}
+
+input::-ms-input-placeholder,
+textarea::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: var(--placeholderDarkColor);
+  font-family: harbourCustom, sans-serif;
+  font-weight: 300;
+}
+
+input:focus {
+  outline: none;
+}
+
+#root {
+  overflow: hidden;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--linkColor);
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  background-color: transparent;
+  box-sizing: border-box;
+  font: 400 14px harbourCustom, sans-serif;
+  border: 0;
+  padding: 0;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+table {
+  border: 0;
+  border-spacing: 0px;
+}
+img {
+  font-size: 10px;
+}
+
+th {
+  padding: 0;
+}
+
+/** xxxxxxxxx-------xxxxxx------xxxxx----common css end------xxxxx-------xxxxxxxx */
+
+/*****************  marquee styles */
+@keyframes marque_slide_left {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/**xxxxxxxxx-xxxx----- marquee styles----xxxxxx----------------xxxxxxxxxxxxx */
+
+.tour-arrow {
+  position: absolute;
+  border-style: solid;
+}
+
+.tour-popper[data-placement^="top"] > .tour-arrow {
+  bottom: -9px;
+  border-width: 10px 10px 0px 10px;
+  border-color: var(--bgPrimary) transparent transparent;
+  left: calc(50% - 10px);
+}
+
+.tour-popper[data-placement^="bottom"] > .tour-arrow {
+  top: -9px;
+  left: calc(50% - 10px);
+  border-width: 0px 10px 10px 10px;
+  border-color: transparent transparent var(--bgPrimary);
+}
+
+.tour-popper[data-placement^="right"] > .tour-arrow {
+  left: -9px;
+  border-width: 10px 10px 10px 0px;
+  border-color: transparent var(--bgPrimary) transparent transparent;
+}
+
+.tour-popper[data-placement^="left"] > .tour-arrow {
+  right: -9px;
+  border-width: 10px 0px 10px 10px;
+  border-color: transparent transparent transparent var(--bgPrimary);
+}
+/*****************  marquee styles */
+
+/**xxxxxxxxx-xxxx----- marquee styles----xxxxxx----------------xxxxxxxxxxxxx */
+
+.tippy-content {
+  z-index: 9;
+}
+.tippy-arrow,
+.tippy-arrow::before {
+  position: absolute;
+  width: 20px;
+  height: 14px;
+  background-color: inherit;
+  /* z-index: -9; */
+}
+
+.tippy-arrow {
+  visibility: hidden;
+  z-index: -1;
+}
+
+.tippy-arrow::before {
+  visibility: visible;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.tippy-box[data-placement^="top"] > .tippy-arrow {
+  bottom: -4px;
+}
+
+.tippy-box[data-placement^="bottom"] > .tippy-arrow {
+  top: -4px;
+}
+
+.tippy-box[data-placement^="left"] > .tippy-arrow {
+  right: -6px;
+}
+
+.tippy-box[data-placement^="right"] > .tippy-arrow {
+  left: -6px;
+}
+/******** date time picker ******/
+.rdtPicker {
+  border-color: var(--borderColor);
+  background-color: var(--dropdownBg);
+}
+
+.rdtPicker th,
+td {
+  color: var(--text);
+}
+
+.rdtPicker th:hover {
+  background-color: var(--hover) !important;
+}
+
+.rdtPicker td:hover {
+  background-color: var(--hover);
+}
+.rdtCounter > .rdtBtn:hover {
+  background-color: var(--hover);
+}
+.rdtMonths > table {
+  /* display: inline-block; */
+}
+
+.rdtMonths > table > tbody {
+  /* display: inherit; */
+  /* width: 100%; */
+  /* font-size: 10px;
+    font-weight: bold; */
+}
+
+.rdtMonths > table > tbody > tr {
+  /* display: block; */
+}
+
+/* xxxxxxxxxx------ date time picker ends ---xxxxxx-----------xxxxx--- */
+
+/* switch css */
+.cSwitchLabel {
+  display: flex;
+  margin: 0 0 0 10px;
+}
+
+.cSwitchSlider {
+  background: white;
+  border-radius: 10px;
+  width: 32px;
+  position: relative;
+  display: inline-block;
+  height: 18px;
+  cursor: pointer;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  background-color: var(--switchTrack-false);
+}
+
+.cSwitchSlider::before {
+  background-color: var(--switchThumb-false);
+  height: 16px;
+  width: 16px;
+  content: " ";
+  position: absolute;
+  border-radius: 50%;
+  top: 1px;
+  left: 1px;
+  cursor: pointer;
+}
+
+.cSwitchInput {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.cSwitchInput:checked + .cSwitchSlider::before {
+  background-color: var(--switchThumb-true);
+  transform: translateX(14px);
+}
+
+.cSwitchInput:checked + .cSwitchSlider {
+  background-color: var(--switchTrack-true);
+}
+
+/* switch css end --------xxxx--------xxxx */
+
+/* BacktestResultsCard css animation **********/
+@keyframes next_gain {
+  0% {
+    background-image: linear-gradient(to right, #fff 14%, var(--gainBg) 20%);
+  }
+  30% {
+    background-image: linear-gradient(to right, #fff 10%, var(--gainBg) 15%);
+  }
+  60% {
+    background-image: linear-gradient(to right, #fff 6%, var(--gainBg) 10%);
+  }
+  90% {
+    background-image: linear-gradient(to right, #fff 2%, var(--gainBg) 5%);
+  }
+  100% {
+    background-image: linear-gradient(to right, #fff 0%, var(--gainBg) 0%);
+  }
+}
+@keyframes back_gain {
+  0% {
+    background-image: linear-gradient(to left, #fff 14%, var(--gainBg) 20%);
+  }
+  30% {
+    background-image: linear-gradient(to left, #fff 10%, var(--gainBg) 15%);
+  }
+  60% {
+    background-image: linear-gradient(to left, #fff 6%, var(--gainBg) 10%);
+  }
+  90% {
+    background-image: linear-gradient(to left, #fff 2%, var(--gainBg) 5%);
+  }
+  100% {
+    background-image: linear-gradient(to left, #fff 0%, var(--gainBg) 0%);
+  }
+}
+@keyframes next_loss {
+  0% {
+    background-image: linear-gradient(to right, #fff 14%, var(--lossBg) 20%);
+  }
+  30% {
+    background-image: linear-gradient(to right, #fff 10%, var(--lossBg) 15%);
+  }
+  60% {
+    background-image: linear-gradient(to right, #fff 6%, var(--lossBg) 10%);
+  }
+  90% {
+    background-image: linear-gradient(to right, #fff 2%, var(--lossBg) 5%);
+  }
+  100% {
+    background-image: linear-gradient(to right, #fff 0%, var(--lossBg) 0%);
+  }
+}
+@keyframes back_loss {
+  0% {
+    background-image: linear-gradient(to left, #fff 14%, var(--lossBg) 20%);
+  }
+  30% {
+    background-image: linear-gradient(to left, #fff 10%, var(--lossBg) 15%);
+  }
+  60% {
+    background-image: linear-gradient(to left, #fff 6%, var(--lossBg) 10%);
+  }
+  90% {
+    background-image: linear-gradient(to left, #fff 2%, var(--lossBg) 5%);
+  }
+  100% {
+    background-image: linear-gradient(to left, #fff 0%, var(--lossBg) 0%);
+  }
+}
+
+.backtest-anim {
+  /* animation-duration: 80ms; */
+  animation-timing-function: cubic-bezier(0, 0.62, 0.24, 1.04);
+  /* animation-delay: 250ms; */
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes next_loss_gain {
+  from {
+    background-image: linear-gradient(
+      to right,
+      var(--lossBg) 20%,
+      var(--gainBg) 100%
+    );
+  }
+  to {
+    background-image: linear-gradient(
+      to right,
+      var(--lossBg) 0%,
+      var(--gainBg) 0%
+    );
+  }
+}
+@keyframes next_gain_loss {
+  from {
+    background-image: linear-gradient(
+      to right,
+      var(--gainBg) 20%,
+      var(--lossBg) 100%
+    );
+  }
+  to {
+    background-image: linear-gradient(
+      to right,
+      var(--gainBg) 0%,
+      var(--lossBg) 0%
+    );
+  }
+}
+@keyframes next_gain_gain {
+  from {
+    background-image: linear-gradient(
+      to right,
+      var(--gainBg) 14%,
+      var(--gainBg) 20%
+    );
+  }
+  to {
+    background-image: linear-gradient(
+      to right,
+      var(--gainBg) 0%,
+      var(--gainBg) 0%
+    );
+  }
+}
+@keyframes next_loss_loss {
+  from {
+    background-image: linear-gradient(
+      to right,
+      var(--lossBg) 14%,
+      var(--lossBg) 20%
+    );
+  }
+  to {
+    background-image: linear-gradient(
+      to right,
+      var(--lossBg) 0%,
+      var(--lossBg) 0%
+    );
+  }
+}
+@keyframes back_loss_gain {
+  from {
+    background-image: linear-gradient(
+      to left,
+      var(--lossBg) 20%,
+      var(--gainBg) 100%
+    );
+  }
+  to {
+    background-image: linear-gradient(
+      to left,
+      var(--lossBg) 0%,
+      var(--gainBg) 0%
+    );
+  }
+}
+@keyframes back_gain_loss {
+  from {
+    background-image: linear-gradient(
+      to left,
+      var(--gainBg) 20%,
+      var(--lossBg) 100%
+    );
+  }
+  to {
+    background-image: linear-gradient(
+      to left,
+      var(--gainBg) 0%,
+      var(--lossBg) 0%
+    );
+  }
+}
+@keyframes back_gain_gain {
+  from {
+    background-image: linear-gradient(
+      to left,
+      var(--gainBg) 14%,
+      var(--gainBg) 20%
+    );
+  }
+  to {
+    background-image: linear-gradient(
+      to left,
+      var(--gainBg) 0%,
+      var(--gainBg) 0%
+    );
+  }
+}
+@keyframes back_loss_loss {
+  from {
+    background-image: linear-gradient(
+      to left,
+      var(--lossBg) 14%,
+      var(--lossBg) 20%
+    );
+  }
+  to {
+    background-image: linear-gradient(
+      to left,
+      var(--lossBg) 0%,
+      var(--lossBg) 0%
+    );
+  }
+}
+.backtest-details-anim {
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0, 0.62, 0.24, 1.04);
+  animation-delay: 0ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+/* -----xxxxx-----xxxxxx--------BacktestResultsCard css animation end-----xxxxxxxxx *****/
+
+/* -----xxxxx-----xxxxxx--------modal css animation-----xxxxxxxxx *****/
+
+.modal-jump {
+  animation-duration: 150ms;
+  animation-timing-function: cubic-bezier(0.15, 0.47, 0, 1.16);
+  animation-delay: 0ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes modalAnimJumpIn {
+  from {
+    opacity: 0;
+    transform: scale(0.7) translate3d(0, -20px, -40px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes modalAnimJumpOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1) translate3d(0, 20px, 40px);
+  }
+}
+
+.modal-slide {
+  animation-duration: 450ms;
+  animation-timing-function: cubic-bezier(0.42, -0.05, 0.01, 0.96);
+  animation-delay: 0ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes modalAnimSlide_right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+@keyframes modalAnimSlide_right_reverse {
+  from {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes modalAnimSlide_bottom {
+  from {
+    opacity: 0;
+    transform: translateY(80%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+@keyframes modalAnimSlide_bottom_reverse {
+  from {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(80%);
+  }
+}
+
+/* -----xxxxx-----xxxxxx--------modal css animation end-----xxxxxxxxx *****/
+
+/* -----xxxxx-----xxxxxx--------checkbox css-----xxxxxxxxx *****/
+
+.cCheckboxLabel {
+  display: flex;
+  cursor: pointer;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.cCheckboxLabel:hover > .cCheckboxTick {
+  border-color: var(--linkColor);
+}
+
+.cCheckboxTick {
+  position: relative;
+  height: 14px;
+  width: 14px;
+  border-radius: 4px;
+  background-color: transparent;
+  border: 1px solid var(--checkboxBorder);
+}
+
+.cCheckboxTick::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1.5px;
+  height: 7px;
+  width: 4px;
+  opacity: 0;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.cCheckboxRound .cCheckboxTick::before {
+  left: 7px;
+  top: 4px;
+  height: 7px;
+  width: 3px;
+}
+
+.cCheckboxRound .cCheckboxTick {
+  border-radius: 50%;
+  height: 18px;
+  width: 18px;
+}
+
+.cCheckboxInput:checked + .cCheckboxTick::before {
+  opacity: 1;
+}
+
+.cCheckboxInput:checked + .cCheckboxTick {
+  background-color: var(--linkColor);
+  border-color: var(--linkColor);
+}
+
+.cCheckboxInput {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* -----xxxxx-----xxxxxx--------checkbox css ends-----xxxxxxxxx *****/
+
+/* -----xxxxx-----xxxxxx--------radio css start-----xxxxxxxxx *****/
+
+.radiogroup {
+  display: flex;
+  align-items: center;
+}
+
+.cRadioLabel {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-right: 12px;
+}
+
+.cRadioInput {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.cRadioTick {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 12px;
+  width: 12px;
+  background-color: transparent;
+  border-radius: 50%;
+  border: 2.5px solid var(--checkboxBorder);
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cRadioLabel .cRadioTick::after {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  align-self: center;
+}
+.cRadioLabel_blue .cRadioTick::after {
+  background-color: var(--linkColor);
+}
+
+.cRadioLabel_orange .cRadioTick::after {
+  background-color: var(--sell);
+}
+
+.cRadioLabel:hover input ~ .cRadioTick {
+  border-color: #ccc;
+}
+
+.cRadioLabel_blue .cRadioInput:checked + .cRadioTick {
+  border-color: var(--linkColor);
+}
+
+.cRadioLabel_orange .cRadioInput:checked + .cRadioTick {
+  border-color: var(--sell);
+}
+
+.cRadioInput:disabled + .cRadioTick {
+  border-color: #afafaf !important;
+}
+.cRadioInput:disabled + .cRadioTick::after {
+  background-color: #afafaf !important;
+}
+
+.cRadioInput:disabled ~ p {
+  color: #afafaf !important;
+}
+
+.cRadioTick::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.cRadioLabel input:checked ~ .cRadioTick::after {
+  display: block;
+}
+
+/* -----xxxxx-----xxxxxx--------radio css ends-----xxxxxxxxx *****/
+
+/* -----xxxxx-----xxxxxx--------deploy modal css-----xxxxxxxxx *****/
+.deploy-modal {
+  max-width: 700px !important;
+  height: 80%;
+  max-height: 460px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  margin: 50px auto !important;
+}
+/* -----xxxxx-----xxxxxx--------deploy modal css end-----xxxxxxxxx *****/
+
+.snackbar-container {
+  position: fixed;
+  bottom: 20px;
+  z-index: 999999;
+  left: 20px;
+  overflow: hidden;
+  overflow-y: auto;
+  max-height: 100vh;
+  max-width: 380px;
+}
+
+.buy-sell-modal {
+  padding: 0 !important;
+  width: unset !important;
+  max-width: unset !important;
+  border-radius: 4px !important;
+}
+
+.toggle-theme-anim * {
+  transition: all 0.8s var(--anim-func-ease);
+  -webkit-transition: all 0.8s var(--anim-func-ease);
+}
+
+.animation-disabled * {
+  transition: none !important;
+  -webkit-transition: none !important;
+}
+
+@keyframes hide-on-scroll {
+  from {
+    /* padding-top: 20px; */
+    bottom: 0;
+    opacity: 1;
+  }
+  to {
+    /* padding-top: 0; */
+    bottom: 10px;
+    opacity: 0;
+  }
+}
+
+@keyframes show-on-scroll {
+  from {
+    /* padding-top: 0; */
+    bottom: 10px;
+    opacity: 0;
+  }
+  to {
+    /* padding-top: 20px; */
+    bottom: 0;
+    opacity: 1;
+  }
+}
+
+#authScreeens,
+#homeScreens .homeWrapper > div,
+#headerContainer {
+  max-width: 1600px;
+  margin: auto;
+}
+
+#logoSection {
+  margin-left: 0;
+}
+
+@media only screen and (min-width: 1440px) and (max-width: 1900px) {
+  #authScreeens,
+  #homeScreens .homeWrapper > div,
+  #headerContainer {
+    width: 80%;
+    margin: auto;
+  }
+  #logoSection {
+    margin-left: -9%;
+  }
+}
+
+@media only screen and (min-width: 1366px) and (max-width: 1440px) {
+  #authScreeens,
+  #homeScreens .homeWrapper > div,
+  #headerContainer {
+    width: 85%;
+    margin: auto;
+  }
+  #logoSection {
+    margin-left: -7.5%;
+  }
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 1366px) {
+  #authScreeens,
+  #homeScreens .homeWrapper > div,
+  #headerContainer {
+    width: 93%;
+    margin: auto;
+  }
+  #logoSection {
+    margin-left: 0;
+  }
+}
+
+@media only screen and (min-width: 787px) and (max-width: 1024px) {
+  #authScreeens,
+  #homeScreens .homeWrapper > div,
+  #headerContainer {
+    width: 95%;
+    margin: auto;
+  }
+  #logoSection {
+    margin-left: 0;
+  }
+}
+
+@media only screen and (max-width: 786px) {
+  #authScreeens,
+  #headerContainer {
+    width: unset;
+    margin: 0 20px 54px;
+  }
+  #logoSection {
+    margin-left: 0;
+  }
+  .deploy-modal {
+    height: 100%;
+    max-height: unset !important;
+    overflow: hidden;
+    margin: 0px auto !important;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  .labelInputContainer {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.tooltip-arrow,
+.tooltip-arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+}
+
+.tooltip-arrow {
+  visibility: hidden;
+}
+
+.tooltip-arrow::before {
+  visibility: visible;
+  content: "";
+  transform: rotate(45deg);
+}
+.main-tooltip[data-popper-placement^="top"] > .tooltip-arrow {
+  bottom: -4px;
+}
+
+.main-tooltip[data-popper-placement^="bottom"] > .tooltip-arrow {
+  top: -4px;
+}
+
+.main-tooltip[data-popper-placement^="left"] > .tooltip-arrow {
+  right: -4px;
+}
+
+.main-tooltip[data-popper-placement^="right"] > .tooltip-arrow {
+  left: -4px;
+}
+
+.hideScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hideScrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
