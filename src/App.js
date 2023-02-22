@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
+import Header from './components/Common/Header'
 import { withTheme } from './Theme/ThemeProvider'
-import CustomText from './UI/CustomText'
 
 class App extends Component {
   constructor(props) {
@@ -11,8 +11,8 @@ class App extends Component {
   render() {
     const { styles } = this.props
     return (
-      <main className={`${styles.main}`} id="main" ref={this.crollRef}>
-        <CustomText>HELLO</CustomText>
+      <main className={`${styles.main}`} id="main" ref={this.scrollRef}>
+        <Header />
       </main>
     )
   }
