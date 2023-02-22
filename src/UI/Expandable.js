@@ -101,8 +101,8 @@ const Expandable = React.memo(({
         {showArrow && !disabled && (
           <Icon
             className={`${styles.expandIcon} ${expanded ? styles.rotate : ''}`}
-            name={ICONS.DOWN}
-            size={12}
+            name={ICONS.DOWN_HEAD_FILLED}
+            size={30}
             color={theme.textGrey}
           />
         )}
@@ -121,7 +121,7 @@ const stylesheet = makeStyles({
     borderRadius: 8,
     // padding: `${SPACING.SPACE_24} 0`,
     backgroundColor: theme.bgPrimary,
-    boxShadow: `0px 3px 20px ${theme.boxShadow}`,
+    borderTop: `1px solid ${theme.borderColor}`,
   },
   headerContainer: {
     display: 'flex',

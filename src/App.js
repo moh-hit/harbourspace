@@ -3,6 +3,8 @@ import Header from './components/Common/Header'
 import HeroSection from './containers/Home/HeroSection'
 import { withTheme } from './Theme/ThemeProvider'
 import About from './containers/Home/About'
+import Faq from './containers/Home/Faq'
+import Testimonials from './containers/Home/Testimonials'
 
 class App extends Component {
   constructor(props) {
@@ -17,6 +19,8 @@ class App extends Component {
         <Header />
         <HeroSection />
         <About />
+        <Testimonials />
+        <Faq />
       </main>
     )
   }

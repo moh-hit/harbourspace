@@ -4,4 +4,7 @@ export default {
 
   FORWARD: 'forwardarrow',
   BACK: 'backarrow',
+
+  UP_HEAD_FILLED: 'uparrow',
+  DOWN_HEAD_FILLED: 'downarrow',
 }

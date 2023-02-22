@@ -153,13 +153,13 @@ class ListDropdown extends PureComponent {
     if (this.inputRef.current && visible) {
       const inputEle = this.inputRef.current
       const {
-        height: inputHeight, top: posTop, width, left,
+        top: posTop, width, left, // height: inputHeight,
       } = inputEle.getBoundingClientRect()
       const { offsetHeight: ddHeight } = this.dropDownRef.current
       let calcHeight = ddHeight > (wHeight * (3 / 4)) ? (wHeight * (3 / 4)) : ddHeight
       // calcHeight = calcHeight < 100 && searchProps ? 120 : calcHeight
       let layoutDim = {}
-      const posFromTop = posTop + inputHeight
+      const posFromTop = posTop // + (inputHeight * 0.5)
       let top = posFromTop
       if (searchProps || staticSearch) {
         const bottomHeight = wHeight - top
@@ -186,6 +186,7 @@ class ListDropdown extends PureComponent {
         }
       } else {
         const outOfScreen = (posFromTop + calcHeight) >= wHeight
+        console.log('🚀 => file: ListDropdown.js:189 => outOfScreen:', outOfScreen)
         if (outOfScreen) {
           top -= (posFromTop + calcHeight) - wHeight
         }
@@ -216,6 +217,7 @@ class ListDropdown extends PureComponent {
       <CustomText
         className={classnames(styles.item, itemStyles)}
         color={textColor}
+        size="medium"
       >
         {label}
       </CustomText>
@@ -307,7 +309,7 @@ class ListDropdown extends PureComponent {
         label, labelStyles, inputStyles, containerStyles, inputContainerStyles, styles,
         dropDownIconName, showDropDownIcon = true, error, dropdownIconSize = 10,
         inputBtnStyles = {}, modalStyles, inputRenderer, isDark, defaultLabel, isMobile,
-        showKeyNav, // DANGER currently only support for options without expandables
+        showKeyNav, inputLabelSize, // DANGER currently only support for options without expandables
       } = this.props
       const { visible, layoutDim } = this.state
       const dropDownIcon = dropDownIconName || (visible ? 'UP_HEAD_FILLED' : 'DOWN_HEAD_FILLED')
@@ -376,7 +378,10 @@ class ListDropdown extends PureComponent {
                       <button type="button" onClick={this.toggleDropdown} className={classnames(styles.inputBtn, inputBtnStyles, visible ? styles.inputBtnSelected : '')}>
                         {inputRenderer ? inputRenderer() : (
                           <>
-                            <CustomText className={classnames(styles.input, inputStyles)}>
+                            <CustomText
+                              className={classnames(styles.input, inputStyles)}
+                              size={inputLabelSize}
+                            >
                               {selectedLabel ? selectedLabel.toString() : placeholder ? <span className={styles.placeholder}>{placeholder}</span> : ''}
                             </CustomText>
                             {showDropDownIcon && <Icon className={styles.dropDownIcon} name={ICONS[dropDownIcon]} color={COLORS[isDark ? 'GREY_600' : 'TEXT']} size={dropdownIconSize} />}
@@ -422,6 +427,7 @@ const stylesheet = ({
     justifyContent: 'space-between',
   },
   inputContainer: {
+    zIndex: '999999',
   },
   inputBtn: {
     display: 'flex',
@@ -440,18 +446,21 @@ const stylesheet = ({
     borderColor: theme.linkColor,
   },
   modalContainer: {
-    borderRadius: 10,
     position: 'fixed',
     zIndex: '99999',
+    borderRadius: 100,
     // width: '100%',
-    backgroundColor: theme.dropdownBg,
-    boxShadow: `0px 3px 20px ${theme.dropdownShadow}`,
-    transition: 'opacity 250ms cubic-bezier(0.34, 0.35, 0.03, 1.04)',
+    // backgroundColor: theme.dropdownBg,
+    // boxShadow: `0px 3px 20px ${theme.dropdownShadow}`,
+    transition: 'opacity 1000ms cubic-bezier(0.34, 0.35, 0.03, 1.04)',
   },
   optionContainer: {
     overflow: 'auto',
     height: '100%',
-    borderRadius: 6,
+    borderRadius: 30,
+    borderBottom: `1px solid ${theme.inputBorder}`,
+    borderRight: `1px solid ${theme.inputBorder}`,
+    borderLeft: `1px solid ${theme.inputBorder}`,
   },
   item: {
     padding: `${SPACING.SPACE_10} ${SPACING.SPACE_20}`,
@@ -461,7 +470,7 @@ const stylesheet = ({
   },
   input: {
     flex: 1,
-    fontSize: FONTS.REGULAR,
+    fontSize: FONTS.LARGE_2,
   },
   labelStyles: {
     marginBottom: SPACING.SPACE_4,
@@ -508,6 +517,7 @@ const stylesheet = ({
   optionLabelBtn: {
     width: '100%',
     height: '100%',
+    margin: `${SPACING.SPACE_10} 0`,
     '&:hover': {
       backgroundColor: theme.hover,
     },
