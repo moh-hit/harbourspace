@@ -18,7 +18,9 @@ function* fetchPageData() {
     const response = yield call(
       getRequest, url, {}, { 'content-type': 'application/json' }, false,
     )
-    if (response.id !== '') {
+    console.log('🚀 => file: Home-saga.js:22 => function*fetchPageData => response:', response)
+
+    if (!response.error) {
       yield put(fetchPageDataSuccess(response))
     } else {
       yield put(fetchPageDataFailure(response.error_msg || 'Some error occurred'))

@@ -1,3 +1,4 @@
+import failedData from '../../utils/failedData'
 import {
   FETCH_PAGE_DATA,
   FETCH_PAGE_DATA_FAILURE,
@@ -7,6 +8,7 @@ import {
 const initialState = {
   isFetchingData: false,
   pageData: {},
+  failedData: {},
   fetchDataErr: false,
   fetchDataErrMsg: '',
 }
@@ -32,6 +34,7 @@ export default function homeReducer(state = initialState, action) {
         isFetchingData: false,
         fetchDataErr: true,
         fetchDataErrMsg: action.err,
+        failedData,
       }
     default:
       return state
