@@ -57,13 +57,7 @@ function About({ styles }) {
           </div>
         </div>
         <div className={styles.statsSubContainer}>
-          <div style={{
-            gridArea: 'commitmentcard',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: SPACING.SPACE_20,
-          }}
-          >
+          <div className={styles.commitmentContainer}>
             <div className={styles.card}>
               <CustomText color={COLORS.THEME_PRIMARY} size="medium">Study commitment</CustomText>
               <CustomText size="large_3" weight="light" color="textSecondary">3 hours / day</CustomText>
@@ -181,6 +175,43 @@ const stylesheet = () => ({
     justifyContent: 'center',
     alignItems: 'center',
     gap: SPACING.SPACE_20,
+  },
+  commitmentContainer: {
+    gridArea: 'commitmentcard',
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: SPACING.SPACE_20,
+  },
+  '@media only screen and (max-width: 430px)': {
+    container: {
+      padding: SPACING.SPACE_20,
+    },
+    aboutContent: {
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    leftContainer: {
+      width: '100%',
+      alignItems: 'center',
+    },
+    rightContainer: {
+      width: '100%',
+    },
+    aboutProfileBg: {
+      width: 300,
+      height: 300,
+    },
+    statsCardContainer: {
+      gridTemplateColumns: '1fr',
+      gap: SPACING.SPACE_2,
+    },
+    statsSubContainer: {
+      gridTemplateAreas: "'commitmentcard''separator''contractcard'",
+    },
+    commitmentContainer: {
+      gridTemplateColumns: '1fr',
+      gap: 0,
+    },
   },
 })
 

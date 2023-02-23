@@ -991,3 +991,36 @@ input[type="number"] {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.expandIconContainer:hover {
+  animation-name: zoom-in-background;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes zoom-in-background {
+  0% {
+    background-color: white;
+  }
+  100% {
+    background-color: var(--themeprimary);
+  }
+}
+
+.expandIconContainer:hover .expandIcon {
+  animation-name: rotate-child;
+  animation-duration: 300ms;
+  animation-timing-function: linear;
+  animation-iteration-count: 4;
+  fill:white;
+}
+
+@keyframes rotate-child {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

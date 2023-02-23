@@ -250,7 +250,7 @@ class AnimatedCarousel extends PureComponent {
           className={`${styles.navBtn} ${navBtnStyles}`}
           style={{ ...extraStyles, right: (navBtnSize / 4) }}
         >
-          <Icon name={ICONS.FORWARD} color={iconColor} size={iconSize} />
+          <Icon name={ICONS.FORWARD} color={iconColor} size={iconSize * 1.5} />
         </button>
         )}
         {(page !== 0 || infinite) && (
@@ -260,10 +260,49 @@ class AnimatedCarousel extends PureComponent {
           className={`${styles.navBtn} ${navBtnStyles}`}
           style={{ ...extraStyles, left: (navBtnSize / 4) }}
         >
-          <Icon name={ICONS.BACK} color={iconColor} size={iconSize} />
+          <Icon name={ICONS.BACK} color={iconColor} size={iconSize * 1.5} />
         </button>
         )}
       </>
+    )
+  }
+
+  renderMobileNavBtn = () => {
+    const {
+      styles,
+      navBtnSize = 32,
+      isDark,
+      navBtnStyles = '',
+    } = this.props
+    const { dataLength } = this.state
+    if (dataLength < 2) return null
+    const extraStyles = {
+      height: navBtnSize,
+      width: navBtnSize,
+      // borderRadius: navBtnSize * 0.17,
+    }
+
+    const iconSize = navBtnSize * 0.35
+    const iconColor = isDark ? COLORS.BLACK_600 : COLORS.BLACK_70
+    return (
+      <div className={styles.mobileNavBtnsContainer}>
+        <button
+          type="button"
+          onClick={this.goBack}
+          className={`${styles.navBtnMobile} ${navBtnStyles}`}
+          style={{ ...extraStyles }}
+        >
+          <Icon name={ICONS.BACK} color={iconColor} size={iconSize * 1.5} />
+        </button>
+        <button
+          type="button"
+          onClick={this.goNext}
+          className={`${styles.navBtnMobile} ${navBtnStyles}`}
+          style={{ ...extraStyles }}
+        >
+          <Icon name={ICONS.FORWARD} color={iconColor} size={iconSize * 1.5} />
+        </button>
+      </div>
     )
   }
 
@@ -368,7 +407,7 @@ class AnimatedCarousel extends PureComponent {
 
   render() {
     const {
-      styles, showNav,
+      styles, showNav, isMobile,
       showDots, singleView, containerStyles = {},
     } = this.props
     const { viewWidth } = this.state
@@ -400,7 +439,7 @@ class AnimatedCarousel extends PureComponent {
             {singleView ? this.renderSingleView({ itemStyles, itemClasses })
               : this.renderMultiView()}
           </div>
-          {showNav && this.renderNavButtons()}
+          {showNav && (isMobile ? this.renderMobileNavBtn() : this.renderNavButtons())}
         </div>
         {showDots && this.renderDots()}
       </div>
@@ -440,6 +479,7 @@ const stylesheet = ({
   navBtn: {
     position: 'absolute',
     backgroundColor: theme.navBtnBg,
+    border: `1px solid ${theme.borderColor}`,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -469,6 +509,27 @@ const stylesheet = ({
     verticalAlign: 'middle',
     '& *': {
       transition: 'all 0.15s var(--anim-func-ease)',
+    },
+  },
+  mobileNavBtnsContainer: {
+    position: 'absolute',
+    bottom: -50,
+    left: '70%',
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    gap: SPACING.SPACE_16,
+  },
+  navBtnMobile: {
+    backgroundColor: theme.navBtnBg,
+    border: `1px solid ${theme.borderColor}`,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 100,
+    // boxShadow: `0px 4px 6px ${theme.navBtnShadow}`,
+    '&:hover': {
+      backgroundColor: theme.hover,
     },
   },
 })
