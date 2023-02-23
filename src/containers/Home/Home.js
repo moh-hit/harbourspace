@@ -9,6 +9,7 @@ import Faq from '../../components/Home/Faq'
 import Testimonials from '../../components/Home/Testimonials'
 import Footer from '../../components/Common/Footer'
 import PageLoader from '../../UI/PageLoader'
+import { showSnackbar } from '../../UI/Snackbar'
 
 class Home extends Component {
   constructor(props) {
@@ -26,12 +27,15 @@ class Home extends Component {
 
   componentDidUpdate(prevProps) {
     const {
-      isFetchingData, fetchDataErr, fetchDataErrMsg, pageData,
+      isFetchingData, fetchDataErr, fetchDataErrMsg, pageData, failedData,
     } = this.props
 
     if(!isEqual(isFetchingData, prevProps.isFetchingData) && !isFetchingData) {
       if (fetchDataErr) {
-        alert(fetchDataErrMsg)
+        this.setState({
+          data: failedData,
+        })
+        showSnackbar(fetchDataErrMsg, { }, 0)
       } else {
         this.setState({
           data: pageData,
