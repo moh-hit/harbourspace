@@ -134,6 +134,23 @@ const stylesheet = () => ({
     justifyContent: 'space-between',
     flex: '1 0 40%',
   },
+  '@media only screen and (max-width: 430px)': {
+    container: {
+      flexDirection: 'column',
+      padding: SPACING.SPACE_20,
+    },
+    leftStamp: {
+      top: -50,
+      right: -50,
+    },
+    leftContainer: {
+      width: '100%',
+    },
+    rightContainer: {
+      width: '100%',
+      marginTop: SPACING.SPACE_40,
+    },
+  },
 })
 
 export default withTheme(stylesheet)(HeroSection)

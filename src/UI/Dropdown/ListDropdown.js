@@ -159,7 +159,7 @@ class ListDropdown extends PureComponent {
       let calcHeight = ddHeight > (wHeight * (3 / 4)) ? (wHeight * (3 / 4)) : ddHeight
       // calcHeight = calcHeight < 100 && searchProps ? 120 : calcHeight
       let layoutDim = {}
-      const posFromTop = posTop // + (inputHeight * 0.5)
+      const posFromTop = posTop - 2 // + (inputHeight * 0.5)
       let top = posFromTop
       if (searchProps || staticSearch) {
         const bottomHeight = wHeight - top
@@ -517,7 +517,7 @@ const stylesheet = ({
   optionLabelBtn: {
     width: '100%',
     height: '100%',
-    margin: `${SPACING.SPACE_10} 0`,
+    padding: `${SPACING.SPACE_10} 0`,
     '&:hover': {
       backgroundColor: theme.hover,
     },

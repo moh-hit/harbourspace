@@ -14,8 +14,9 @@ const filters = [
   { label: 'Program application', value: 'program_application' },
 ]
 
-function Faq({ styles }) {
+function Faq({ styles, isMobile }) {
   const [filterBy, setFilterBy] = React.useState(filters[0].value)
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -24,19 +25,20 @@ function Faq({ styles }) {
           <CustomText color="textSecondary" size="medium" weight="light">Filter by:</CustomText>
           <ListDropdown
             selected={filterBy}
-            onSelect={setFilterBy}
             options={filters}
             inputContainerStyles={styles.inputContainer}
             inputBtnStyles={styles.inputBtnStyles}
             inputStyles={styles.inputStyles}
             inputLabelSize="medium"
             dropdownIconSize={24}
+            onChangeOption={setFilterBy}
           />
         </div>
       </div>
       {Array(5).fill().map(() => {
         return (
           <div className={styles.faqRow}>
+            {!isMobile && (
             <CustomText
               size="large_25"
               weight="semi_bold"
@@ -45,9 +47,11 @@ function Faq({ styles }) {
             >
               Program conditions
             </CustomText>
+            )}
             <Expandable
               title="What are my obligations?"
-              titleProps={{ size: 'large_25' }}
+              titleProps={{ size: isMobile ? 'large_1' : 'large_25' }}
+              useCustomExpandIcon
             >
               <div className={styles.faqDesc}>
                 <CustomText size="large" weight="light" style={{ lineHeight: 2 }}>
@@ -111,6 +115,24 @@ const stylesheet = () => ({
     gridTemplateColumns: '1fr 1.5fr',
     marginBottom: SPACING.SPACE_40,
     gridRowGap: SPACING.SPACE_40,
+  },
+  '@media only screen and (max-width: 430px)': {
+    container: {
+      padding: SPACING.SPACE_20,
+    },
+    header: {
+      flexDirection: 'column',
+      gap: SPACING.SPACE_20,
+      alignItems: 'flex-start',
+    },
+    actionRenderer: {
+      flexDirection: 'column',
+      gap: SPACING.SPACE_20,
+      alignItems: 'flex-start',
+    },
+    faqRow: {
+      gridTemplateColumns: '1fr',
+    },
   },
 })
 export default withTheme(stylesheet)(Faq)

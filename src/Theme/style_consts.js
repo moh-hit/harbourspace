@@ -147,6 +147,7 @@ export const COLORS = {
 }
 
 export const LIGHT = {
+  themeprimary: '#685DC5',
   red: COLORS.RED,
   green: COLORS.GREEN,
   orange: COLORS.ORANGE,
@@ -243,6 +244,7 @@ export const LIGHT = {
 }
 
 export const DARK = {
+  themeprimary: '#685DC5',
   red: COLORS.RED,
   green: COLORS.GREEN,
   orange: COLORS.ORANGE,

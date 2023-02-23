@@ -7,4 +7,7 @@ export default {
 
   UP_HEAD_FILLED: 'uparrow',
   DOWN_HEAD_FILLED: 'downarrow',
+
+  PLUS: 'plus',
+  MINUS: 'minus',
 }
