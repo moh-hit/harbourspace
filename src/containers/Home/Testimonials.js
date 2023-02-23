@@ -186,6 +186,11 @@ const stylesheet = () => ({
     alignItems: 'center',
     gap: SPACING.SPACE_10,
   },
+  '@media only screen and (max-width: 430px)': {
+    testimonialCard: {
+      width: '90%',
+    },
+  },
 })
 
 export default withTheme(stylesheet)(Testimonials)

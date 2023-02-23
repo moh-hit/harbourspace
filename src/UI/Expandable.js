@@ -2,11 +2,11 @@ import makeStyles from '@material-ui/styles/makeStyles'
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-
 import Icon from './Icon'
 import CustomText from './CustomText'
 
 import {
+  COLORS,
   ICONS, SPACING, theme,
 } from '../Theme'
 
@@ -28,18 +28,24 @@ const Expandable = React.memo(({
   headerContainerStyles,
   showWhenExpanded = true,
   strLength,
+  useCustomExpandIcon = false,
 }) => {
   const [expanded, toggleExpand] = useState(defaultExpanded)
+  // const [isHovered, setIsHovered] = React.useState(false)
+
   const [layoutDim, updateDim] = useState({})
   const styles = stylesheet()
   const contentRef = useRef()
   const containerRef = useRef()
+
   useEffect(() => {
     if (defaultExpanded !== expanded) {
       toggleExpand(defaultExpanded)
     }
   }, [defaultExpanded])
+
   const expandTitles = ['Entry', 'Exit', 'Conditions']
+
   useEffect(() => {
     if (!disabled) {
       if(expanded && contentRef.current && expandTitles.includes(title)) {
@@ -51,6 +57,7 @@ const Expandable = React.memo(({
       }
     }
   }, [expanded, extraData])
+
   // if child height changes then update the maxHeight
   useEffect(() => {
     let updateTimer = null
@@ -78,12 +85,36 @@ const Expandable = React.memo(({
       if (updateTimer) clearTimeout(updateTimer)
     }
   }, [disabled])
+
   const expandHandler = () => {
     if (disabled) return
     if (onExpandCallback) {
       onExpandCallback(expandKey, !expanded, extraData)
     }
     toggleExpand(!expanded)
+  }
+
+  // const onHoverIn = () => {
+  //   setIsHovered(true)
+  // }
+
+  // const onHoverOut = () => {
+  //   setIsHovered(false)
+  // }
+
+  const expandIcon = () => {
+    const icon = expanded ? ICONS.MINUS : ICONS.PLUS
+    const iconColor = expanded ? COLORS.WHITE : COLORS.THEME_PRIMARY
+
+    return (
+      <div
+        className={classnames(styles.expandIconContainer, 'expandIconContainer')}
+        // onMouseEnter={onHovers
+        style={{ backgroundColor: expanded ? COLORS.THEME_PRIMARY : COLORS.WHITE }}
+      >
+        <Icon name={icon} className="expandIcon" color={iconColor} size={18} />
+      </div>
+    )
   }
 
   return (
@@ -98,7 +129,7 @@ const Expandable = React.memo(({
           {typeof title === 'string' ? <CustomText weight="medium" {...titleProps}>{title}</CustomText>
             : title()}
         </div>
-        {showArrow && !disabled && (
+        {useCustomExpandIcon ? expandIcon() : showArrow && !disabled && (
           <Icon
             className={`${styles.expandIcon} ${expanded ? styles.rotate : ''}`}
             name={ICONS.DOWN_HEAD_FILLED}
@@ -154,6 +185,17 @@ const stylesheet = makeStyles({
   content: {
     transition: 'all 0.3s ease-in-out',
     overflow: 'hidden',
+  },
+  expandIconContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 40,
+    height: 40,
+    borderRadius: 50,
+    borderColor: COLORS.THEME_PRIMARY,
+    borderWidth: 1,
+    borderStyle: 'solid',
   },
 })
 

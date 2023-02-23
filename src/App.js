@@ -5,6 +5,7 @@ import { withTheme } from './Theme/ThemeProvider'
 import About from './containers/Home/About'
 import Faq from './containers/Home/Faq'
 import Testimonials from './containers/Home/Testimonials'
+import Footer from './components/Common/Footer'
 
 class App extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class App extends Component {
   }
 
   render() {
-    const { styles } = this.props
+    const { styles, isMobile } = this.props
     return (
       <main className={`${styles.main}`} id="main" ref={this.scrollRef}>
         <Header />
@@ -21,6 +22,7 @@ class App extends Component {
         <About />
         <Testimonials />
         <Faq />
+        {!isMobile && <Footer />}
       </main>
     )
   }

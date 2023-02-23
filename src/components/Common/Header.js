@@ -6,7 +6,7 @@ import {
 } from '../../Theme'
 import Icon from '../../UI/Icon'
 
-const Header = ({ styles }) => {
+const Header = ({ styles, isMobile }) => {
   return (
     <div className={styles.container}>
       <div className={styles.leftContent}>
@@ -14,9 +14,11 @@ const Header = ({ styles }) => {
         <CustomText color="white" size="small">/ INTERACTION DESIGN</CustomText>
       </div>
       <div className={styles.rightContent}>
+        {!isMobile && (
         <div className={styles.applyNowBtn}>
           <CustomText center color="white">APPLY NOW</CustomText>
         </div>
+        )}
         <button type="button">
           <Icon name={ICONS.MENU} size={24} color="white" />
         </button>
