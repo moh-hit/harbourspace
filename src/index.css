@@ -1024,3 +1024,19 @@ input[type="number"] {
     transform: rotate(360deg);
   }
 }
+
+.shimmerText {
+  animation-name: shimmer;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}

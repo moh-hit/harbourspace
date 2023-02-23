@@ -6,12 +6,12 @@ import {
 } from '../../Theme'
 import Icon from '../../UI/Icon'
 
-const Header = ({ styles, isMobile }) => {
+const Header = ({ styles, isMobile, name = '' }) => {
   return (
     <div className={styles.container}>
       <div className={styles.leftContent}>
         <CustomText color="white" size="medium_1" weight="semi_bold">HARBOUR SPACE</CustomText>
-        <CustomText color="white" size="small">/ INTERACTION DESIGN</CustomText>
+        <CustomText color="white" size="small">{`/ ${name}`}</CustomText>
       </div>
       <div className={styles.rightContent}>
         {!isMobile && (

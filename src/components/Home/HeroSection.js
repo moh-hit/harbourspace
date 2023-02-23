@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import dayjs from 'dayjs'
 import CustomText from '../../UI/CustomText'
 import { withTheme } from '../../Theme/ThemeProvider'
 import {
@@ -7,7 +8,7 @@ import {
 } from '../../Theme'
 import Button from '../../UI/Button'
 
-const { SECTION_PATTERN, HEROLEFT, ZEPTOLOGO } = ASSETS
+const { SECTION_PATTERN, HEROLEFT } = ASSETS
 
 const renderField = (label, value, value2) => {
   return (
@@ -22,23 +23,97 @@ const renderField = (label, value, value2) => {
   )
 }
 
-function HeroSection({ styles }) {
+function HeroSection(props) {
+  const { programDetails = {}, styles } = props
+  const {
+    name = '', description = '', about = '',
+    company = {}, position = 'N/A', applicationEndDate = '',
+    scholarshipStartDate = '', locationName = '', duration = '',
+  } = programDetails || {}
+  const {
+    name: companyName = '', color_logo: {
+      src = '',
+    } = {},
+  } = company || {}
+
+  // create a timer for the application end date
+  const [time, setTime] = React.useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  })
+
+  const startTimer = () => {
+    const countDownDate = new Date(applicationEndDate).getTime()
+
+    // Update the count down every 1 second
+    const x = setInterval(() => {
+      // Get today's date and time
+      const now = new Date().getTime()
+
+      // Find the distance between now and the count down date
+      const distance = countDownDate - now
+
+      // Time calculations for days, hours, minutes and seconds
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24))
+
+      // Output the result in an element with id="demo"
+      setTime({
+        days: Math.floor(days),
+        hours: Math.floor(hours % 24),
+        minutes: Math.floor(minutes % 60),
+        seconds: Math.floor(seconds % 60),
+      })
+
+      // If the count down is over, write some text
+      if (distance < 0) {
+        clearInterval(x)
+        setTime({
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+        })
+      }
+    }, 1000)
+  }
+
+  React.useEffect(() => {
+    startTimer()
+
+    return () => {
+      setTime({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+      })
+    }
+  }, [])
+
+  const timerText = `${time.days} Day: ${time.hours} Hrs: ${time.minutes} Min: ${time.seconds} Secs`
+
+  const startDate = dayjs(scholarshipStartDate, 'YYYY-MM-DD HH:MM:SS').format('DD MMM YYYY ')
+  const endDate = dayjs(scholarshipStartDate, 'YYYY-MM-DD HH:MM:SS').add(duration, 'year').format('DD MMM YYYY')
+
   return (
     <div className={styles.container}>
       <img src={SECTION_PATTERN} className={styles.sectionPattern} alt="pattern" />
       <div className={styles.leftContainer}>
         <img src={HEROLEFT} alt="interactive-design" className={styles.leftStamp} />
-        <CustomText size="large_48" weight="semi_bold" color={COLORS.THEME_PRIMARY}>Interaction Design Apprenticeship</CustomText>
-        <CustomText weight="medium" size="large_2">A fully funded work-study program to launch your tech career </CustomText>
+        <CustomText size="large_48" weight="semi_bold" color={COLORS.THEME_PRIMARY}>{name}</CustomText>
+        <CustomText weight="medium" size="large_2">{about}</CustomText>
         <CustomText weight="light" size="large_25">
-          Harbour.Space has partnered with SCG to empower
-          driven talent and eliminate the barriers to accessing exceptional education and
-          career opportunities through a Masters Fellowship.
+          {description}
         </CustomText>
         <CustomText className={styles.positionText} weight="semi_bold" size="large">
           Position:
           {' '}
-          <span>Marketing Performance</span>
+          <span>{position}</span>
         </CustomText>
         <Button
           text="Apply Now"
@@ -51,21 +126,21 @@ function HeroSection({ styles }) {
       </div>
       <div className={styles.rightContainer}>
         <div className={styles.powerwedBtContainer}>
-          <img src={ZEPTOLOGO} alt="zepto-logo" className={styles.zeptoLogo} />
+          <img src={src} alt="zepto-logo" className={styles.zeptoLogo} />
           <div>
             <CustomText weight="light" size="large">Powered By</CustomText>
-            <CustomText size="large_1">Zeptolab</CustomText>
+            <CustomText size="large_1">{companyName}</CustomText>
           </div>
         </div>
         <div className={styles.card}>
           <CustomText color={COLORS.THEME_PRIMARY} size="medium_1">Application closes in</CustomText>
-          <CustomText size="large" weight="light">6 Day  :  22 Hrs  :  56 Min  :  13 Seg </CustomText>
+          <CustomText size="large" weight="light">{timerText}</CustomText>
         </div>
         <div className={classNames(styles.card, styles.cardDetails)}>
-          {renderField('Location', 'Bangkok')}
-          {renderField('Duration', '1 Year', ' Full Time')}
-          {renderField('Start Date', '30 June 2020')}
-          {renderField('End date', '30 Aug 2020')}
+          {renderField('Location', locationName)}
+          {renderField('Duration', `${duration} Year`, ' Full Time')}
+          {renderField('Start Date', startDate)}
+          {renderField('End date', endDate)}
         </div>
       </div>
     </div>

@@ -2,21 +2,26 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
+import { Provider } from 'react-redux'
+
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+import store from './store'
 
 import ThemeProvider from './Theme/ThemeProvider'
 import './index.css'
 
 ReactDOM.render(
   <BrowserRouter>
-    <React.StrictMode>
-      <ThemeProvider>
-        <HelmetProvider>
-          <App />
-        </HelmetProvider>
-      </ThemeProvider>
-    </React.StrictMode>
+    <Provider store={store}>
+      <React.StrictMode>
+        <ThemeProvider>
+          <HelmetProvider>
+            <App />
+          </HelmetProvider>
+        </ThemeProvider>
+      </React.StrictMode>
+    </Provider>
   </BrowserRouter>,
   document.getElementById('root'),
 )
