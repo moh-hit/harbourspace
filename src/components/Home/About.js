@@ -26,7 +26,23 @@ const renderField = (label, value, value2) => {
   )
 }
 
-function About({ styles }) {
+function About(props) {
+  const { styles, about = '', stats = {} } = props
+  const {
+    scholarshipValue,
+    tutionCovered,
+    remaining,
+    livingStipend,
+    perMonth,
+    studyCommitment: {
+      hours: studyHours,
+      text: studyText,
+    },
+    workCommitment: {
+      hours: workHours,
+      text: workText,
+    },
+  } = stats || {}
   return (
     <div className={styles.container}>
       <div className={styles.aboutContent}>
@@ -38,37 +54,34 @@ function About({ styles }) {
         <div className={styles.rightContainer}>
           <CustomText size="large_48" weight="semi_bold" color={COLORS.THEME_PRIMARY}>About the apprenticeship</CustomText>
           <CustomText weight="light" size="large_25">
-            Our scholarships are designed to give talented and driven young people from any
-            background access to top-class education, experience and network.
-            We offer a fully-funded master’s degree alongside an apprenticeship
-            and a guaranteed job upon graduation.
+            {about}
           </CustomText>
         </div>
       </div>
       <div className={styles.statsCardContainer}>
         <div className={styles.card}>
           <CustomText color={COLORS.THEME_PRIMARY} size="medium">Scholarship value</CustomText>
-          <CustomText size="large_48">€31,300</CustomText>
+          <CustomText size="large_48">{`€${scholarshipValue}`}</CustomText>
           <div className={styles.separator} />
           <div className={styles.cardDetails}>
-            {renderField('Tution covered', '€20,900')}
-            {renderField('Remaining', '€2,000')}
-            {renderField('Living stipend', '€8,400(€700/month)')}
+            {renderField('Tution covered', `€${tutionCovered}`)}
+            {renderField('Remaining', `€${remaining}`)}
+            {renderField('Living stipend', `€${livingStipend}(${perMonth}/month)`)}
           </div>
         </div>
         <div className={styles.statsSubContainer}>
           <div className={styles.commitmentContainer}>
             <div className={styles.card}>
               <CustomText color={COLORS.THEME_PRIMARY} size="medium">Study commitment</CustomText>
-              <CustomText size="large_3" weight="light" color="textSecondary">3 hours / day</CustomText>
+              <CustomText size="large_3" weight="light" color="textSecondary">{`${studyHours} hours / day`}</CustomText>
               <div className={styles.smallseperator} />
-              <CustomText weight="light" size="medium">You will complete 15 modules to graduate. Daily classes are 3 hours, plus coursework to complete in your own time. </CustomText>
+              <CustomText weight="light" size="medium">{studyText}</CustomText>
             </div>
             <div className={styles.card}>
               <CustomText color={COLORS.THEME_PRIMARY} size="medium">Work commitment</CustomText>
-              <CustomText size="large_3" weight="light" color="textSecondary">4 hours / day</CustomText>
+              <CustomText size="large_3" weight="light" color="textSecondary">{`${workHours} hours / day`}</CustomText>
               <div className={styles.smallseperator} />
-              <CustomText weight="light" size="medium">Immerse yourself in the professional world during your apprenticeship. You’ll learn the ropes from the best and get to apply your newly acquired knowledge in the field from day one.</CustomText>
+              <CustomText weight="light" size="medium">{workText}</CustomText>
             </div>
           </div>
           <div style={{ gridArea: 'separator' }} className={styles.textSeparator}>

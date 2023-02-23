@@ -7,15 +7,28 @@ import {
 import ListDropdown from '../../UI/Dropdown/ListDropdown'
 import Expandable from '../../UI/Expandable'
 
-const filters = [
-  { label: 'Program conditions', value: 'program_conditions' },
-  { label: 'Program eligibility', value: 'program_eligibility' },
-  { label: 'Program requirements', value: 'program_requirements' },
-  { label: 'Program application', value: 'program_application' },
-]
+function Faq(props) {
+  const {
+    styles, isMobile, categories = [], items = [],
+  } = props
+  const [filterBy, setFilterBy] = React.useState(categories[0])
+  const [selectedItems, setSelectedItems] = React.useState([])
 
-function Faq({ styles, isMobile }) {
-  const [filterBy, setFilterBy] = React.useState(filters[0].value)
+  const options = React.useMemo(() => {
+    if (categories.length === 0) return []
+
+    setFilterBy(categories[0])
+    return categories.map((category) => {
+      return { label: category, value: category }
+    })
+  }, [categories])
+
+  React.useEffect(() => {
+    if (filterBy) {
+      const filteredItems = items.filter(item => item.type === filterBy)
+      setSelectedItems(filteredItems)
+    }
+  }, [filterBy, items])
 
   return (
     <div className={styles.container}>
@@ -25,7 +38,7 @@ function Faq({ styles, isMobile }) {
           <CustomText color="textSecondary" size="medium" weight="light">Filter by:</CustomText>
           <ListDropdown
             selected={filterBy}
-            options={filters}
+            options={options}
             inputContainerStyles={styles.inputContainer}
             inputBtnStyles={styles.inputBtnStyles}
             inputStyles={styles.inputStyles}
@@ -35,9 +48,11 @@ function Faq({ styles, isMobile }) {
           />
         </div>
       </div>
-      {Array(5).fill().map(() => {
+      {selectedItems.map((item) => {
+        const { question = '', answer = {} } = item || {}
+        const { data: answerData = '' } = answer[0] || {}
         return (
-          <div className={styles.faqRow}>
+          <div className={styles.faqRow} key={question}>
             {!isMobile && (
             <CustomText
               size="large_25"
@@ -45,31 +60,21 @@ function Faq({ styles, isMobile }) {
               color={COLORS.THEME_PRIMARY}
               style={{ marginTop: SPACING.SPACE_20 }}
             >
-              Program conditions
+              {filterBy}
             </CustomText>
             )}
             <Expandable
-              title="What are my obligations?"
-              titleProps={{ size: isMobile ? 'large_1' : 'large_25' }}
+              title={question}
+              titleProps={{
+                size: isMobile ? 'large_1' : 'large_25',
+                style: { textAlign: 'left', overflowWrap: 'break-word' },
+              }}
               useCustomExpandIcon
+              headerStyle={styles.titleStyle}
             >
               <div className={styles.faqDesc}>
                 <CustomText size="large" weight="light" style={{ lineHeight: 2 }}>
-                  The majority of our students receive numerous job offers at the end of
-                  the second academic year of their Bachelor&aposs programme and at the
-                  end of the first academic year of their Master&aposs programme.
-                  The best applicants receive an offer from our industrial
-                  partners at the beginning of their programmes.
-                  Harbour.Space is highly recognized among innovative employers and is
-                  strategic partner of B.Grimm multi- industry corporation with 140 years
-                  of history in Thailand. Together we insure students get the best knowledge
-                  about the current job market opportunities.
-                  We offer our students paid internships options during studies jointly with
-                  our industrial partners.
-                  Employers that hired graduates of Harbour.Space in the past include Google,
-                  IBM, Accenture, Typeform, Frog, and other tech centric companies.
-                  Our industry specific employability report could be provided
-                  to you separately during the admission process.
+                  {answerData}
                 </CustomText>
               </div>
             </Expandable>
@@ -115,6 +120,9 @@ const stylesheet = () => ({
     gridTemplateColumns: '1fr 1.5fr',
     marginBottom: SPACING.SPACE_40,
     gridRowGap: SPACING.SPACE_40,
+  },
+  titleStyle: {
+    width: '90%',
   },
   '@media only screen and (max-width: 430px)': {
     container: {
