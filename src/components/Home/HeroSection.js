@@ -110,11 +110,13 @@ function HeroSection(props) {
         <CustomText weight="light" size="large_25">
           {description}
         </CustomText>
+        {position && (
         <CustomText className={styles.positionText} weight="semi_bold" size="large">
           Position:
           {' '}
           <span>{position}</span>
         </CustomText>
+        )}
         <Button
           text="Apply Now"
           buttonColor="primary"
@@ -224,6 +226,9 @@ const stylesheet = () => ({
     rightContainer: {
       width: '100%',
       marginTop: SPACING.SPACE_40,
+    },
+    zeptoLogo: {
+      maxWidth: 200,
     },
   },
 })

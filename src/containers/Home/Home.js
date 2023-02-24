@@ -10,6 +10,7 @@ import Testimonials from '../../components/Home/Testimonials'
 import Footer from '../../components/Common/Footer'
 import PageLoader from '../../UI/PageLoader'
 import { showSnackbar } from '../../UI/Snackbar'
+import { withTheme } from '../../Theme/ThemeProvider'
 
 class Home extends Component {
   constructor(props) {
@@ -116,4 +117,6 @@ class Home extends Component {
   }
 }
 
-export default Home
+const stylesheet = () => ({})
+
+export default withTheme(stylesheet)(Home)
